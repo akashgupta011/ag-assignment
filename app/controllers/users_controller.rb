@@ -28,7 +28,7 @@ class UsersController < ApplicationController
   # current user will be shown
   def show 
     if $user
-      render json: { name: $user.name, user_name: $user.username, email: $user.email}
+      render json: { name: $user.name, username: $user.username, email: $user.email}
     else
       render json: { error: 'User not found' }, status: :not_found
     end

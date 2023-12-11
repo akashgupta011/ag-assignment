@@ -35,13 +35,12 @@ class User < ApplicationRecord
   #   # decoded_payload = Base64.decode64(payload)
   # end
   
-  def generate_token
+  def self.generate_token
       token = SecureRandom.hex(6)
       token.gsub!(/\W/, '')
       token = token[0, 12]
 
     return token
   end
-end
 
 end

@@ -5,13 +5,13 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+* Ruby version :- 3.2.2  Rails version :- 7.0.2
 
 * System dependencies
 
 * Configuration
 
-* Database creation
+* Database creation:- postgresql
 
 * Database initialization
 
@@ -19,6 +19,11 @@ Things you may want to cover:
 
 * Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+* do: bundle install
+then:
+      and also update your postgres username password in database.yml file
+      for database creation in postgresql do:  rails db:create  
+      for migrating databse do:                rails db:migrate
+      and then use :                           rails s
 
 * ...

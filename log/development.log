@@ -2160,3 +2160,46 @@ FOREIGN KEY ("user_id")
   [1m[36mTRANSACTION (1.5ms)[0m  [1m[35mCOMMIT[0m
   [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(2609954419846615695)[0m
   [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started POST "/signin" for ::1 at 2023-12-11 18:10:20 +0530
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+SyntaxError (/home/blubirch/self_assessment/ag-assignment/app/models/user.rb:47: syntax error, unexpected `end'):
+  
+app/models/user.rb:47: syntax error, unexpected `end'
+app/models/user.rb:47: syntax error, unexpected `end'
+Started POST "/signin" for ::1 at 2023-12-11 18:10:59 +0530
+Processing by UsersController#login as */*
+  Parameters: {"username"=>"511", "password"=>"[FILTERED]", "user"=>{"username"=>"511", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:20:in `login'
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "511"], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:20:in `login'
+Completed 500 Internal Server Error in 26ms (ActiveRecord: 6.6ms | Allocations: 8833)
+
+
+  
+NoMethodError (undefined method `generate_token' for User:Class):
+  
+app/controllers/users_controller.rb:22:in `login'
+Started POST "/signin" for ::1 at 2023-12-11 18:11:15 +0530
+Processing by UsersController#login as */*
+  Parameters: {"username"=>"511", "password"=>"[FILTERED]", "user"=>{"username"=>"511", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:20:in `login'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "511"], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:20:in `login'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:23:in `login'
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["username", "511"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:23:in `login'
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "akash@test.com"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:23:in `login'
+  [1m[36mUser Update (0.7ms)[0m  [1m[33mUPDATE "users" SET "updated_at" = $1, "token" = $2 WHERE "users"."id" = $3[0m  [["updated_at", "2023-12-11 12:41:15.450137"], ["token", "[FILTERED]"], ["id", 1]]
+  ↳ app/controllers/users_controller.rb:23:in `login'
+  [1m[36mTRANSACTION (1.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/users_controller.rb:23:in `login'
+Completed 200 OK in 24ms (Views: 0.6ms | ActiveRecord: 7.4ms | Allocations: 7901)
+
+
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]

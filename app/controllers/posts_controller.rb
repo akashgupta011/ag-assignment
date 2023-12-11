@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   #we are setting a particular user's post by set post except all post method
-  before_action :set_user_to_post, except: [:all_posts, :create]
+  before_action :set_user_to_post, except: [:all_posts, :create, :index]
 
   # it will render all post present in application
   def all_posts
@@ -16,6 +16,11 @@ class PostsController < ApplicationController
     else
       render json: {message: "no post available"}
     end
+  end
+
+  def index
+    @post = $user.posts.all
+    render json: @post
   end
 
   # By this method we create a post by the user which have been logged in.

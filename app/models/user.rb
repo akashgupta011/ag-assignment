@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  require 'jwt'
+  require 'securerandom'
  # Here if one user is destroyed then his post will also deleted in remove account 
   has_many :posts, dependent: :destroy
 
@@ -33,7 +33,15 @@ class User < ApplicationRecord
   #   # jwt = user.token
   #   # header, payload, signature = jwt.split('.')
   #   # decoded_payload = Base64.decode64(payload)
-
   # end
+  
+  def generate_token
+      token = SecureRandom.hex(6)
+      token.gsub!(/\W/, '')
+      token = token[0, 12]
+
+    return token
+  end
+end
 
 end

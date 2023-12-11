@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     else
       @user = User.find_by(email: params[:email]) || User.find_by(username: params[:username])
       if @user && @user.authenticate(params[:password])
-        @token = User.generate_token(@user)
+        @token = User.generate_token
         @user.update(token:@token)
         render json: {message: "user logged in successfully"}
       else

@@ -10,6 +10,7 @@ class PostsController < ApplicationController
 
   #By this method we get post of user which has logged in with specific post id
   def show
+  debugger
     if @post
       render json: @post
       # render json: { title: @post.title, content: @post.content} #we also can see only title and name of post by uncommenting code
@@ -19,13 +20,14 @@ class PostsController < ApplicationController
   end
 
   def index
+    @user = User.find(params[:user_id])
     @post = @user.posts.all
     render json: @post
   end
 
   # By this method we create a post by the user which have been logged in.
   def create
-    @user = User.find(params[:id])
+    @user = User.find(params[:user_id])
     return render json: {message: "user should be present but no user found"} if @user == nil #if there is no user then display message
     post = @user.posts.build(post_params)
     if post.save
@@ -58,7 +60,7 @@ class PostsController < ApplicationController
   #this method will provide current user
   def set_user_to_post
     begin
-      @user = User.find(params[:id])
+      @user = User.find(params[:user_id])
       @post = @user.posts.find(params[:id])
     rescue
       render json: {message: "no post with given id for current user"}

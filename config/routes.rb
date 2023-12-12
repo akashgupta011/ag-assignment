@@ -8,10 +8,11 @@ Rails.application.routes.draw do
   delete '/remove_account/:id', to: 'users#remove_account'
   
   # routes defined for users post
-  get '/posts/:id', to: 'posts#show'
-  get '/posts', to: 'posts#index'
+  get '/users/:user_id/posts/:id', to: 'posts#show'
+  get '/users/:user_id/posts', to: 'posts#index'
   get '/all_posts', to: 'posts#all_posts'
-  post '/users/:id/posts/create', to: 'posts#create'
-  patch '/posts/:id/update', to: 'posts#update'
-  delete '/posts/:id/destroy', to: 'posts#destroy'
+  post '/users/:user_id/posts/create', to: 'posts#create'
+  patch '/users/:user_id/posts/:id/update', to: 'posts#update'
+  delete '/users/:user_id/posts/:id/destroy', to: 'posts#destroy'
+
 end

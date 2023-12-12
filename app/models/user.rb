@@ -36,9 +36,9 @@ class User < ApplicationRecord
   # end
   
   def self.generate_token
-      token = SecureRandom.hex(6)
-      token.gsub!(/\W/, '')
-      token = token[0, 12]
+    token = SecureRandom.hex(6)
+    token.gsub!(/\W/, '')
+    token = token[0, 12]
 
     return token
   end

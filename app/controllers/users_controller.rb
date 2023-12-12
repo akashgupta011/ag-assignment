@@ -31,6 +31,7 @@ class UsersController < ApplicationController
   # current user will be shown
   def show 
     return render json:{message: "user not logged in"} if @user.token == nil
+    authenticate_user(@user.token)
     if @user
       render json: { name: @user.name, username: @user.username, email: @user.email}
     else
@@ -80,6 +81,20 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :username, :email, :password, :token)
+  end
+
+  def authenticate_user(token)
+    response.headers['token'] = 'true'
+    # token = request.headers['Authorization']&.split&.last
+    
+    unless valid_token?.present?
+      render json: { error: 'Unauthorized' }, status: :unauthorized
+    end
+  end
+
+  def valid_token?
+    @current_user = User.find_by(token: @user.token)
+    @current_user.present?
   end
 
 end

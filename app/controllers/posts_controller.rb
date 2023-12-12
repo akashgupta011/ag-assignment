@@ -19,16 +19,17 @@ class PostsController < ApplicationController
   end
 
   def index
-    @post = $user.posts.all
+    @post = @user.posts.all
     render json: @post
   end
 
   # By this method we create a post by the user which have been logged in.
   def create
-    return render json: {message: "user should be present but no user found"} if $user == nil #if there is no user then display message
-    post = $user.posts.build(post_params)
+    @user = User.find(params[:id])
+    return render json: {message: "user should be present but no user found"} if @user == nil #if there is no user then display message
+    post = @user.posts.build(post_params)
     if post.save
-      render json: {message: "post created successfully created by user with id #{$user.id}  and post id #{post.id}"}
+      render json: {message: "post created successfully created by #{@user.name} and post id #{post.id}"}
     else
       render json: { error: post.errors.full_messages.join(', ') }, status: :unprocessable_entity
     end
@@ -57,7 +58,8 @@ class PostsController < ApplicationController
   #this method will provide current user
   def set_user_to_post
     begin
-      @post = $user.posts.find(params[:id])
+      @user = User.find(params[:id])
+      @post = @user.posts.find(params[:id])
     rescue
       render json: {message: "no post with given id for current user"}
     end

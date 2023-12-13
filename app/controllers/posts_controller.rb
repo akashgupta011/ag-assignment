@@ -11,7 +11,6 @@ class PostsController < ApplicationController
 
   #By this method we get post of user which has logged in with specific post id
   def show
-  debugger
     if @post
       render json: @post
       # render json: { title: @post.title, content: @post.content} #we also can see only title and name of post by uncommenting code

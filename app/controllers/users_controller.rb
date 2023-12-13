@@ -36,7 +36,6 @@ class UsersController < ApplicationController
 
   # current user will be shown
   def show 
-    # debugger
     return render json:{message: "user not logged in"} if @user.token == nil
     authenticate_user
     if @user

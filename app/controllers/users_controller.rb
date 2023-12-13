@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   # before_save :hash_email
   before_action :set_user, only: [:show, :update, :logout, :remove_account]
+  before_action :authenticate_user, except: [:create ]
 
   #here we are creating user or we can say that, "here we are doing signup"
   def create
@@ -21,7 +22,12 @@ class UsersController < ApplicationController
       if @user && @user.authenticate(params[:password])
         @token = User.generate_token
         @user.update(token:@token)
-        render json: {message: "user logged in successfully"}
+        response.headers['Authorization'] = "Bearer #{@token}"
+        if request.format.present?
+          render json: {message: "#{@user.name} logged in succesfully"}
+          return
+        end
+        # render json: {user_token: user_token}
       else
         render json: { error: 'Invalid email or password' }, status: :unauthorized
       end
@@ -30,8 +36,9 @@ class UsersController < ApplicationController
 
   # current user will be shown
   def show 
+    # debugger
     return render json:{message: "user not logged in"} if @user.token == nil
-    authenticate_user(@user.token)
+    authenticate_user
     if @user
       render json: { name: @user.name, username: @user.username, email: @user.email}
     else
@@ -51,7 +58,7 @@ class UsersController < ApplicationController
 
   # Current user can end session of itself
   def logout
-    if @user
+    if @user.token
       @user.update(token: nil)
       render json: { message: 'User logged out' }
     else
@@ -81,15 +88,6 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :username, :email, :password, :token)
-  end
-
-  def authenticate_user(token)
-    response.headers['token'] = 'true'
-    # token = request.headers['Authorization']&.split&.last
-    
-    unless valid_token?.present?
-      render json: { error: 'Unauthorized' }, status: :unauthorized
-    end
   end
 
   def valid_token?

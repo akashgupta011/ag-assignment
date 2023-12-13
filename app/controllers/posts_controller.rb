@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   #we are setting a particular user's post by set post except all post method
   before_action :set_user_to_post, except: [:all_posts, :create, :index]
+  before_action :authenticate_user
 
   # it will render all post present in application
   def all_posts
@@ -21,6 +22,7 @@ class PostsController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
+    return render json: {message: "user should be present but no user found"} if @user.token == nil #if there is no user then display message
     @post = @user.posts.all
     render json: @post
   end
@@ -28,7 +30,7 @@ class PostsController < ApplicationController
   # By this method we create a post by the user which have been logged in.
   def create
     @user = User.find(params[:user_id])
-    return render json: {message: "user should be present but no user found"} if @user == nil #if there is no user then display message
+    return render json: {message: "user should be present but no user found"} if @user.token == nil #if there is no user then display message
     post = @user.posts.build(post_params)
     if post.save
       render json: {message: "post created successfully created by #{@user.name} and post id #{post.id}"}
